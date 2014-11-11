@@ -18,11 +18,11 @@ KEYWORDS="~amd64"
 DEPEND=">=dev-libs/libappindicator-12.10
 	>=x11-libs/xcb-util-keysyms-0.3.9
 	>=dev-libs/quazip-0.6.2-r1
-	>=dev-qt/qtcore:5.4:5
-	>=dev-qt/qtgui:5.4:5
-	>=dev-qt/qtscript:5.4:5
-	>=dev-qt/qtwidgets:5.4:5
-	>=dev-qt/qtxml:5.4:5"
+	>=dev-qt/qtcore-5.4:5
+	>=dev-qt/qtgui-5.4:5
+	>=dev-qt/qtscript-5.4:5
+	>=dev-qt/qtwidgets-5.4:5
+	>=dev-qt/qtxml-5.4:5"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
