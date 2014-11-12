@@ -23,7 +23,9 @@ DEPEND=">=dev-libs/libappindicator-12.10
 	>=dev-qt/qtgui-5.4:5
 	>=dev-qt/qtscript-5.4:5
 	>=dev-qt/qtwidgets-5.4:5
-	>=dev-qt/qtxml-5.4:5"
+	>=dev-qt/qtxml-5.4:5
+	>=dev-qt/qtwebkit-5.4:5
+	>=dev-qt/qtsql-5.4:5"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
