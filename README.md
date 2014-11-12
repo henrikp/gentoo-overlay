@@ -3,6 +3,10 @@ gentoo-overlay
 
 My custom gentoo overlay!
 
+Currently in this overlay
+-------------------------
+    app-text/zeal (~x86, ~amd64)
+
 Adding this overlay
 -------------------
 Install [Layman](http://layman.sourceforge.net/):
