@@ -25,6 +25,7 @@ DEPEND=">=dev-libs/libappindicator-12.10
 	>=dev-qt/qtxml-5.4:5
 	>=dev-qt/qtwebkit-5.4:5
 	>=dev-qt/qtsql-5.4:5
+	>=dev-qt/qtconcurrent-5.4:5
 	dev-libs/openssl:0[-bindist]
 	net-misc/openssh[-bindist]"
 RDEPEND="${DEPEND}"
