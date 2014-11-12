@@ -13,7 +13,7 @@ S="${WORKDIR}/zeal-20141104/zeal"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~x86"
 
 DEPEND=">=dev-libs/libappindicator-12.10
 	>=x11-libs/xcb-util-keysyms-0.3.9
