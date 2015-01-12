@@ -31,10 +31,6 @@ DEPEND=">=dev-libs/libappindicator-12.10
 	net-misc/openssh[-bindist]"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-rm -rf quazip
-}
-
 src_configure() {
 eqmake5
 }
