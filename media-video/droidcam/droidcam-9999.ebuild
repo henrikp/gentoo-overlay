@@ -3,14 +3,14 @@
 
 EAPI=7
 
-inherit readme.gentoo-r1 desktop linux-mod xdg-utils
+inherit readme.gentoo-r1 desktop xdg-utils
 
 DESCRIPTION="Turn your mobile device into a webcam"
 HOMEPAGE="https://www.dev47apps.com/"
 
 if [[ ${PV} == "9999" ]] ; then
 	inherit git-r3
-	EGIT_REPO_URI="https://github.com/aramg/droidcam.git"
+	EGIT_REPO_URI="https://github.com/henrikp/droidcam.git"
 else
 	SRC_URI="https://github.com/aramg/droidcam/archive/v${PV}.tar.gz"
 	KEYWORDS="~arm64"
@@ -24,24 +24,22 @@ IUSE="gtk"
 DEPEND="gtk? (
 				dev-cpp/gtkmm:3.0
 				media-video/ffmpeg
-			)
+		)
 		!gtk? ( media-video/ffmpeg[-X] )
-		=app-pda/libusbmuxd-1*
+		=app-pda/libusbmuxd-1*[static-libs]
 		media-libs/alsa-lib"
 RDEPEND="${DEPEND} dev-util/android-tools"
-BDEPEND="=media-libs/libjpeg-turbo-2*
+BDEPEND="=media-libs/libjpeg-turbo-2*[static-libs]
 		>=media-libs/speex-1.2.0-r1"
 
 S="${WORKDIR}/${P}/linux"
 DOCS=( README.md README-DKMS.md )
 
-BUILD_TARGETS="all"
-MODULE_NAMES="v4l2loopback-dc(video:${S}/v4l2loopback:${S}/v4l2loopback)"
 CONFIG_CHECK="~SND_ALOOP MEDIA_SUPPORT MEDIA_CAMERA_SUPPORT"
 ERROR_SND_ALOOP="CONFIG_SND_ALOOP: missing, required for audio support"
 
 PATCHES=(
-		"${FILESDIR}"/${P}-Makefile-fixes.patch
+		"${FILESDIR}"/${PN}-1.4-Makefile-fixes.patch
 )
 
 src_configure() {
@@ -52,7 +50,6 @@ src_prepare() {
 	if ! use gtk ; then
 		sed -i -e '/cflags gtk+/d' Makefile
 	fi
-	linux-mod_pkg_setup
 	default
 }
 
@@ -61,7 +58,6 @@ src_compile() {
 		emake droidcam
 	fi
 	emake droidcam-cli
-	linux-mod_src_compile
 }
 
 src_install() {
@@ -72,24 +68,21 @@ src_install() {
 		make_desktop_entry "${PN}" "DroidCam Client" "${PN}" AudioVideo
 	fi
 	dobin droidcam-cli
-	readme.gentoo_create_doc
-	insinto /etc/modules-load.d
-	newins ${FILESDIR}/${PN}-modulesloadd.conf ${PN}.conf
-	newdoc ${FILESDIR}/${PN}-modprobe.conf ${PN}.conf.default
-	linux-mod_src_install
+	#readme.gentoo_create_doc
+	#insinto /etc/modules-load.d
+	#newins ${FILESDIR}/${PN}-modulesloadd.conf ${PN}.conf
+	#newdoc ${FILESDIR}/${PN}-modprobe.conf ${PN}.conf.default
 	einstalldocs
 }
 
 pkg_postinst() {
-	readme.gentoo_print_elog
-	linux-mod_pkg_postinst
+	#readme.gentoo_print_elog
 	if use gtk ; then
 		xdg_icon_cache_update
 	fi
 }
 
 pkg_postrm() {
-	linux-mod_pkg_postrm
 	if use gtk ; then
 		xdg_desktop_database_update
 		xdg_mimeinfo_database_update

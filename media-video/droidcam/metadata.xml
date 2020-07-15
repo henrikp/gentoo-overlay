@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM 'http://www.gentoo.org/dtd/metadata.dtd'>
+<pkgmetadata>
+	<maintainer type="person">
+		<name>Henrik Pihl</name>
+		<email>ahvenas@gmail.com</email>
+	</maintainer>
+	<use>
+		<flag name="gtk">Build GTK+ application.</flag>
+	</use>
+	<longdescription>
+	DroidCam allows you to use your Android or iOS device as webcam, wired or
+	wireless. Works with the free version of the phone app.	
+	</longdescription>
+</pkgmetadata>

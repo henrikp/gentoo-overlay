@@ -1,0 +1,16 @@
+diff --git a/libs/openFrameworks/sound/ofOpenALSoundPlayer.h b/libs/openFrameworks/sound/ofOpenALSoundPlayer.h
+index d946cd8..16e5a3c 100644
+--- a/libs/openFrameworks/sound/ofOpenALSoundPlayer.h
++++ b/libs/openFrameworks/sound/ofOpenALSoundPlayer.h
+@@ -10,9 +10,9 @@
+ 
+ typedef unsigned int ALuint;
+ /** Opaque device handle */
+-typedef struct ALCdevice_struct ALCdevice;
++struct ALCdevice;
+ /** Opaque context handle */
+-typedef struct ALCcontext_struct ALCcontext;
++struct ALCcontext;
+ 
+ 
+ 
