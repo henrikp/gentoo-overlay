@@ -6,10 +6,10 @@
 		<email>ahvenas@gmail.com</email>
 	</maintainer>
 	<use>
-		<flag name="gtk">Build GTK+ application.</flag>
+		<flag name="gtk">Build the <pkg>dev-cpp/gtkmm</pkg>:3.0 client.</flag>
 	</use>
 	<longdescription>
-	DroidCam allows you to use your Android or iOS device as webcam, wired or
-	wireless. Works with the free version of the phone app.	
+	DroidCam allows you to use your Android or iOS device as webcam, wired (USB
+	and ADB) or wireless (TCP/IP). Works with the free version of the phone app.	
 	</longdescription>
 </pkgmetadata>

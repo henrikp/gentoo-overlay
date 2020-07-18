@@ -7,19 +7,13 @@ inherit readme.gentoo-r1 desktop linux-mod xdg-utils
 
 DESCRIPTION="Turn your mobile device into a webcam"
 HOMEPAGE="https://www.dev47apps.com/"
-
-if [[ ${PV} == "9999" ]] ; then
-	inherit git-r3
-	EGIT_REPO_URI="https://github.com/aramg/droidcam.git"
-else
-	SRC_URI="https://github.com/aramg/droidcam/archive/v${PV}.tar.gz"
-	KEYWORDS="~arm64"
-fi
+SRC_URI="https://github.com/aramg/droidcam/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="gtk"
+RESTRICT="bindist mirror"
 
 DEPEND="gtk? (
 				dev-cpp/gtkmm:3.0
@@ -30,10 +24,19 @@ DEPEND="gtk? (
 		media-libs/alsa-lib"
 RDEPEND="${DEPEND} dev-util/android-tools"
 BDEPEND="=media-libs/libjpeg-turbo-2*
-		>=media-libs/speex-1.2.0-r1"
+		>=media-libs/speex-1.2.0-r1
+		virtual/pkgconfig"
 
 S="${WORKDIR}/${P}/linux"
 DOCS=( README.md README-DKMS.md )
+DISABLE_AUTOFORMATTING="true"
+DOC_CONTENTS="
+		The default resolution for v4l2loopback-dc[1] is 640x480. You can override the
+		value by copying droidcam.conf.default to /etc/modprobe.d/droidcam.conf
+		and modifying 'width' and 'height'.
+
+		[1] https://github.com/aramg/droidcam/issues/56
+"
 
 BUILD_TARGETS="all"
 MODULE_NAMES="v4l2loopback-dc(video:${S}/v4l2loopback:${S}/v4l2loopback)"
@@ -49,11 +52,11 @@ src_configure() {
 }
 
 src_prepare() {
+	default
 	if ! use gtk ; then
 		sed -i -e '/cflags gtk+/d' Makefile
 	fi
 	linux-mod_pkg_setup
-	default
 }
 
 src_compile() {
@@ -74,25 +77,30 @@ src_install() {
 	dobin droidcam-cli
 	readme.gentoo_create_doc
 	insinto /etc/modules-load.d
-	newins ${FILESDIR}/${PN}-modulesloadd.conf ${PN}.conf
-	newdoc ${FILESDIR}/${PN}-modprobe.conf ${PN}.conf.default
-	linux-mod_src_install
+	newins "${FILESDIR}"/${PN}-modulesloadd.conf ${PN}.conf
+	newdoc "${FILESDIR}"/${PN}-modprobe.conf ${PN}.conf.default
 	einstalldocs
+	linux-mod_src_install
 }
 
 pkg_postinst() {
-	readme.gentoo_print_elog
-	linux-mod_pkg_postinst
 	if use gtk ; then
 		xdg_icon_cache_update
+	else
+		elog
+		elog "Only droidcam-cli has been installed since no 'gtk' flag was present"
+		elog "in the USE list."
+		elog
 	fi
+	readme.gentoo_print_elog
+	linux-mod_pkg_postinst
 }
 
 pkg_postrm() {
-	linux-mod_pkg_postrm
 	if use gtk ; then
 		xdg_desktop_database_update
 		xdg_mimeinfo_database_update
 		xdg_icon_cache_update
 	fi
+	linux-mod_pkg_postrm
 }
