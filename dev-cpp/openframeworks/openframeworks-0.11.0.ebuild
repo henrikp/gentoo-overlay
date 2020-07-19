@@ -9,7 +9,7 @@ SRC_URI="https://github.com/openframeworks/${PN}/archive/${PV}.tar.gz -> ${P}.ta
 
 LICENSE=""
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="media-sound/pulseaudio
@@ -18,18 +18,20 @@ DEPEND="media-sound/pulseaudio
 		media-sound/mpg123
 		<dev-libs/boost-1.73.0
 		dev-cpp/gtkmm:3.0
-		virtual-jack
+		virtual/jack
 		media-libs/alsa-lib
 		media-libs/mesa
 		sys-libs/libraw1394
 		x11-libs/libXmu
 		media-libs/freetype
-		media-libs/opencv
+		media-libs/opencv # ippicv ?
 		sys-devel/gdb
 		net-misc/curl
-		gnome-base/gconf"
+		gnome-base/gconf
+		dev-libs/libtess2"
 RDEPEND="${DEPEND}"
-BDEPEND="dev-libs/poco
+BDEPEND="
+		dev-libs/poco
 		dev-libs/pugixml
 		dev-libs/uriparser
 		dev-libs/openssl
@@ -37,9 +39,18 @@ BDEPEND="dev-libs/poco
 		media-libs/freeimage
 		media-libs/glfw
 		media-libs/rtaudio
-		media-libs/libsndfile"
+		media-libs/libsndfile
+		dev-libs/libutf8proc
+		media-libs/libsvgtiny
+		sys-libs/zlib
+		x11-libs/pixman"
 
 PATCHES=(
 		# https://forum.openframeworks.cc/t/compilation-failing-due-to-confliting-definition-in-openal/33927/2
-		"${FILESDIR}"/openFrameworks-0.11.0-OpenAL-fixes.patch
+		"${FILESDIR}"/openframeworks-0.11.0-OpenAL-fixes.patch
 )
+
+src_prepare() {
+# ./download some prebuilt packages via script
+	default
+}
