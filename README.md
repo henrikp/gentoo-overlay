@@ -1,4 +1,4 @@
-gentoo-overlay
+henrikp
 ==============
 
 My custom gentoo overlay! To avoid clutter, packages here get removed if they get added to the main repository.
@@ -21,3 +21,7 @@ Package | Description
 [:pencil2:]media-sound/audacity | 2.4.2 version bump
 [:mailbox_with_mail:]media-video/droidcam | new, https://www.dev47apps.com/
 [:green_book:]media-video/shotcut | 20.07.11 version bump
+
+Adding this overlay:
+> `layman -o https://raw.githubusercontent.com/henrikp/gentoo-overlay/master/repositories.xml
+-f -a henrikp`
