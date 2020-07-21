@@ -15,11 +15,10 @@ S="${WORKDIR}/src"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="fonts"
+IUSE="+fonts"
 
 FONT_SUFFIX="ttf"
 FONT_S="${S}/bin/scenarist-core/Resources/Fonts"
-FONT_CONF=""
 
 DEPEND="dev-qt/qtcore
 		dev-qt/qtconcurrent
@@ -49,30 +48,26 @@ src_prepare() {
 src_configure() {
 	lrelease -silent Scenarist.pro
 	eqmake5 Scenarist.pro
-}
-
-src_compile() {
 	emake qmake_all
-	emake
 }
 
 src_install() {
 	newicon -s scalable bin/scenarist-core/Resources/Icons/logo.png "${PN}".png
-	make_desktop_entry Scenarist "KIT Scenarist" "${PN}" Office
-	dobin "${WORKDIR}"/build/Release/bin/scenarist-desktop/Scenarist
-	font_src_install
+	make_desktop_entry "${PN}" "KIT Scenarist" "${PN}" Office
+	newbin "${WORKDIR}"/build/Release/bin/scenarist-desktop/Scenarist "${PN}"
+	use fonts && font_src_install
 }
 
 pkg_postinst() {
 	xdg_icon_cache_update
 	xdg_mimeinfo_database_update
 	xdg_desktop_database_update
-	font_pkg_postinst
+	use fonts && font_pkg_postinst
 }
 
 pkg_postrm() {
 	xdg_icon_cache_update
 	xdg_mimeinfo_database_update
 	xdg_desktop_database_update
-	font_pkg_postrm
+	use fonts && font_pkg_postrm
 }
