@@ -14,7 +14,7 @@ Currently in this overlay
 
 Package | Description
 ------- | -----------
-[:pencil2:]app-editors/kitscenarist | new , https://kitscenarist.ru/en/
+[:mailbox_with_mail:]app-editors/kitscenarist | new, https://kitscenarist.ru/en/
 [:pencil2:]dev-cpp/openFrameworks | new, https://openframeworks.cc/
 [:green_book:]dev-libs/libtess2 | new, https://github.com/memononen/libtess2 
 [:pencil2:]games-board/chessx | 1.5.4 version bump
