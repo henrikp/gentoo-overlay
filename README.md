@@ -14,8 +14,10 @@ Currently in this overlay
 
 Package | Description
 ------- | -----------
-[:pencil2:]dev-cpp/openFrameworks | new package (0.11.0), https://openframeworks.cc/
+[:pencil2:]app-editors/kitscenarist | new , https://kitscenarist.ru/en/
+[:pencil2:]dev-cpp/openFrameworks | new, https://openframeworks.cc/
+[:green_book:]dev-libs/libtess2 | new, https://github.com/memononen/libtess2 
 [:pencil2:]games-board/chessx | 1.5.4 version bump
 [:pencil2:]media-sound/audacity | 2.4.2 version bump
-[:mailbox_with_mail:]media-video/droidcam | new package (1.4), https://www.dev47apps.com/
-[:green_book:]media-video/shotcut | version bump to 20.07.11
+[:mailbox_with_mail:]media-video/droidcam | new, https://www.dev47apps.com/
+[:green_book:]media-video/shotcut | 20.07.11 version bump
