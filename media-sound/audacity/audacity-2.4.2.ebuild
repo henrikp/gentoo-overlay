@@ -4,7 +4,7 @@
 EAPI=7
 WX_GTK_VER="3.0-gtk3"
 
-inherit flag-o-matic wxwidgets xdg cmake cmake-utils
+inherit flag-o-matic wxwidgets xdg cmake
 
 MY_P="Audacity-${PV}"
 # There are no tags, so we have to look at commit messages
