@@ -21,6 +21,8 @@ Package | Description
 [:pencil2:]media-sound/audacity | 2.4.2 version bump
 [:mailbox_with_mail:]media-video/droidcam | new, https://www.dev47apps.com/
 [:green_book:]media-video/shotcut | 20.07.11 version bump
+[:green_book:]sys-apps/rogdrv | new, https://github.com/kyokenn/rogdrv
+
 
 Adding this overlay:
 > `layman -o https://raw.githubusercontent.com/henrikp/gentoo-overlay/master/repositories.xml

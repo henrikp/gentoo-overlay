@@ -1,12 +1,12 @@
 # Copyright 2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-
-
 EAPI=7
-PYTHON_COMPAT=( python3_{6,7,8} )
 
-inherit linux-info git-r3 udev python-single-r1
+PYTHON_COMPAT=( python3_{6,7,8,9} )
+DISTUTILS_USE_SETUPTOOLS=rdepend
+
+inherit distutils-r1 linux-info git-r3 udev
 
 DESCRIPTION="ASUS ROG userspace mouse driver for Linux."
 HOMEPAGE="https://github.com/kyokenn/rogdrv"
@@ -18,8 +18,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="${PYTHON_DEPS}
-		dev-libs/libappindicator
+DEPEND="dev-libs/libappindicator
 		dev-python/python-evdev
 		dev-python/cffi
 		dev-python/cython-hidapi
@@ -28,20 +27,21 @@ RDEPEND="${DEPEND}"
 BDEPEND=""
 CONFIG_CHECK="~INPUT_UINPUT"
 
-src_prepare() {
-	default
+python_prepare_all() {
+	# duplicate text, commited to upstream
+	sed -i -e '/Comment=ASUS/d' rogdrv.desktop rogdrv/gtk3.py
+	# udev rules are placed outside /usr
+	sed -i -e '/etc[\/]udev/d' setup.py
+	distutils-r1_python_prepare_all
 }
 
-#src_compile() {
-#	python-single-r1_pkg_setup
-#}
-
-src_install() {
-	# ${PYTHON} setup.py install
+python_install() {
+	distutils-r1_python_install
 	udev_dorules udev/50-rogdrv.rules
-	einstalldocs
 }
 
 pkg_postinst() {
+	elog "Reconnect your mouse to get your mouse working with the new rules."
+	elog "See the README file for usage instructions."
 	udev_reload
 }
