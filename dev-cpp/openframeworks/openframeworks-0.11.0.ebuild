@@ -59,9 +59,9 @@ src_unpack() {
 }
 
 src_compile() {
-	#cd "${S}"/scripts/linux/
-	#./compileOF.sh || die "Build failed!"
-	export LIBSPATH=linux64
-	emake Debug
+	cd "${S}"/scripts/linux/
+	./compileOF.sh ${MAKEOPTS} || die "Build failed!"
+	#export LIBSPATH=linux64
+	#emake Debug
 }
 
