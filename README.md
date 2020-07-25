@@ -21,7 +21,7 @@ Package | Name | Description
 [:mailbox_with_mail:]media-video/droidcam | DroidCam | new, https://www.dev47apps.com/
 [:green_book:]media-video/shotcut | Shotcut | 20.07.11 version bump
 [:green_book:]sys-apps/rogdrv | ASUS ROG mouse utility | new, https://github.com/kyokenn/rogdrv
-
+[:pencil2:]sci-mathematics/wxmaxima | wxMaxima | 20.07.0 version bump, move to 4.0-gtk3
 
 Adding this overlay:
 > `layman -o https://raw.githubusercontent.com/henrikp/gentoo-overlay/master/repositories.xml
