@@ -4,7 +4,7 @@
 EAPI=7
 WX_GTK_VER="3.0-gtk3"
 PLOCALES="ca cs da de el en es fi fr gl hu it ja kab nb pl pt_BR ru tr uk zh_CN zh_TW"
-inherit cmake-utils wxwidgets l10n xdg
+inherit cmake l10n wxwidgets xdg
 
 DESCRIPTION="Graphical frontend to Maxima, using the wxWidgets toolkit"
 HOMEPAGE="https://wxmaxima-developers.github.io/wxmaxima/"
@@ -13,20 +13,46 @@ SRC_URI="https://github.com/wxMaxima-developers/wxmaxima/archive/Version-${PV}.t
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
+IUSE="docs cppcheck +openmp"
 S="${WORKDIR}"/${PN}-Version-${PV}
+DOCS=""
+HTML_DOCS=( "${BUILD_DIR}"/info/. )
+RESTRICT="test"
 
 DEPEND="app-text/pandoc
-	dev-libs/libxml2:2
-	x11-libs/wxGTK:${WX_GTK_VER}"
+		dev-libs/libxml2:2
+		x11-libs/wxGTK:${WX_GTK_VER}"
 RDEPEND="${DEPEND}
-	media-fonts/jsmath
-	sci-visualization/gnuplot[wxwidgets]
-	sci-mathematics/maxima"
+		media-fonts/jsmath
+		sci-visualization/gnuplot[wxwidgets]
+		sci-mathematics/maxima"
+BDEPEND="openmp?	(	sys-devel/gcc[openmp] )
+		cppcheck?	(	dev-util/cppcheck )
+		docs?		(	app-doc/doxygen[dot]
+						app-text/pandoc
+						dev-texlive/texlive-luatex )"
+
+src_configure() {
+	local mycmakeargs=(
+		-DWXM_USE_OPENMP=$(usex openmp)
+		-DWXM_USE_CPPCHECK=$(usex cppcheck)
+	)
+
+	cmake_src_configure
+}
+
 
 src_prepare() {
+	# wrong documentation installation path
+	sed -i \
+		-e "s/doc\/wxmaxima/doc\/wxmaxima-$PV/g" \
+	CMakeLists.txt info/CMakeLists.txt || die
+	sed -i \
+		-e "s/wxmaxima-${PV}/wxmaxima-${PV}\/html/g" \
+	info/CMakeLists.txt || die
+
 	setup-wxwidgets
-	cmake-utils_src_prepare
+	cmake_src_prepare
 
 	# locales
 	rm_po() {
@@ -40,7 +66,35 @@ src_prepare() {
 	l10n_for_each_disabled_locale_do rm_po
 }
 
+src_compile() {
+	cmake_src_compile
+
+	if use docs ; then
+		ebegin "Compiling source documentation"
+			eninja -C "${BUILD_DIR}" doxygen
+		eend
+	fi
+}
+
 src_install() {
 	docompress -x /usr/share/doc/${PF}
-	cmake-utils_src_install
+	cmake_src_install
+
+	rm -rvf	"${D}"/usr/share/doc/${P}/html/CMakeFiles \
+			"${D}"/usr/share/doc/${P}/html/cmake_install.cmake
+
+	if use docs ; then
+		ebegin "Installing source file documentation"
+			docinto html/source
+			dodoc -r "${BUILD_DIR}"/Doxygen/html/.
+		eend
+	fi
 }
+
+pkg_postinst() {
+	if use docs ; then
+		elog "Documentation about the source code functions have been"
+		elog "installed in /usr/share/doc/${P}/html/source/"
+	fi
+}
+
