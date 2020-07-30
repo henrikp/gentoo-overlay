@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit desktop font readme.gentoo-r1 qmake-utils xdg-utils
+inherit desktop font readme.gentoo-r1 qmake-utils xdg
 
 MY_PV="0.7.2.rc9i"
 MY_P="${PN}"-"${MY_PV}"
@@ -21,29 +21,37 @@ IUSE=""
 FONT_SUFFIX="ttf"
 FONT_S="${S}/bin/scenarist-core/Resources/Fonts"
 
-DEPEND="dev-qt/qtcore
-		dev-qt/qtgui
-		dev-qt/qtmultimedia
-		dev-qt/qtnetwork
-		dev-qt/qtpositioning
-		dev-qt/qtprintsupport
-		dev-qt/qtquickcontrols
-		dev-qt/qtsql
-		dev-qt/qtsvg
-		dev-qt/qtwebengine
-		dev-qt/qtwidgets
-		dev-qt/qtxml
+DEPEND="dev-qt/qtcore:5
+		dev-qt/qtgui:5
+		dev-qt/qtmultimedia:5
+		dev-qt/qtnetwork:5
+		dev-qt/qtpositioning:5
+		dev-qt/qtprintsupport:5
+		dev-qt/qtquickcontrols:5
+		dev-qt/qtsql:5
+		dev-qt/qtsvg:5
+		dev-qt/qtwebengine:5
+		dev-qt/qtwidgets:5
+		dev-qt/qtxml:5
 		sys-libs/zlib[minizip]"
 RDEPEND="${DEPEND}"
 BDEPEND=""
+
+src_prepare() {
+	xdg_src_prepare
+}
 
 src_configure() {
 	eqmake5 Scenarist.pro
 	emake qmake_all
 }
 
+src_preinst() {
+	xdg_src_prepare
+}
+
 src_install() {
-	newicon -s scalable bin/scenarist-core/Resources/Icons/logo.png "${PN}".png
+	newicon -s 512 bin/scenarist-core/Resources/Icons/logo.png "${PN}".png
 	make_desktop_entry "${PN}" "KIT Scenarist" "${PN}" Office
 	newbin "${WORKDIR}"/build/Release/bin/scenarist-desktop/Scenarist "${PN}"
 	readme.gentoo_create_doc
@@ -51,16 +59,12 @@ src_install() {
 }
 
 pkg_postinst() {
-	xdg_icon_cache_update
-	xdg_mimeinfo_database_update
-	xdg_desktop_database_update
+	xdg_pkg_postinst
 	font_pkg_postinst
 	readme.gentoo_print_elog
 }
 
 pkg_postrm() {
-	xdg_icon_cache_update
-	xdg_mimeinfo_database_update
-	xdg_desktop_database_update
+	xdg_pkg_postrm
 	font_pkg_postrm
 }
