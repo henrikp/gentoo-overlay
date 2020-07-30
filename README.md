@@ -1,7 +1,7 @@
 henrikp
 ==============
 
-My custom gentoo overlay! To avoid clutter, packages here get removed if they get added to the main repository.
+My custom gentoo overlay, version bumps/fixes get removed if they get added to the main repository.
 
 ![Overlay QA](https://github.com/henrikp/gentoo-overlay/workflows/Overlay%20QA/badge.svg?branch=master)
 

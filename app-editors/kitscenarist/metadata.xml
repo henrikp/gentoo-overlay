@@ -9,9 +9,6 @@
 		<email>proxy-maint@gentoo.org</email>
 		<name>Proxy Maintainers</name>
 	</maintainer>
-	<use>
-		<flag name="fonts">Install the bundled fonts.</flag>
-	</use>
 	<longdescription>
 	KIT Scenarist is a program for creating screenplays which oriented at 
 	international standards in the field of film production. The program is a 

@@ -13,7 +13,7 @@ SRC_URI="https://github.com/wxMaxima-developers/wxmaxima/archive/Version-${PV}.t
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="docs cppcheck +openmp"
+IUSE="doc cppcheck +openmp"
 S="${WORKDIR}"/${PN}-Version-${PV}
 DOCS=""
 HTML_DOCS=( "${BUILD_DIR}"/info/. )
@@ -28,7 +28,7 @@ RDEPEND="${DEPEND}
 		sci-mathematics/maxima"
 BDEPEND="openmp?	(	sys-devel/gcc[openmp] )
 		cppcheck?	(	dev-util/cppcheck )
-		docs?		(	app-doc/doxygen[dot]
+		doc?		(	app-doc/doxygen[dot]
 						app-text/pandoc
 						dev-texlive/texlive-luatex )"
 
@@ -41,9 +41,7 @@ src_configure() {
 	cmake_src_configure
 }
 
-
 src_prepare() {
-	# wrong documentation installation path
 	sed -i \
 		-e "s/doc\/wxmaxima/doc\/wxmaxima-$PV/g" \
 	CMakeLists.txt info/CMakeLists.txt || die
@@ -69,7 +67,7 @@ src_prepare() {
 src_compile() {
 	cmake_src_compile
 
-	if use docs ; then
+	if use doc ; then
 		ebegin "Compiling source documentation"
 			eninja -C "${BUILD_DIR}" doxygen
 		eend
@@ -83,7 +81,7 @@ src_install() {
 	rm -rvf	"${D}"/usr/share/doc/${P}/html/CMakeFiles \
 			"${D}"/usr/share/doc/${P}/html/cmake_install.cmake
 
-	if use docs ; then
+	if use doc ; then
 		ebegin "Installing source file documentation"
 			docinto html/source
 			dodoc -r "${BUILD_DIR}"/Doxygen/html/.
@@ -92,9 +90,8 @@ src_install() {
 }
 
 pkg_postinst() {
-	if use docs ; then
+	if use doc ; then
 		elog "Documentation about the source code functions have been"
 		elog "installed in /usr/share/doc/${P}/html/source/"
 	fi
 }
-

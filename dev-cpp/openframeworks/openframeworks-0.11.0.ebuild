@@ -8,7 +8,7 @@ HOMEPAGE="https://openframeworks.cc/"
 SRC_URI="https://github.com/openframeworks/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 		amd64? ( http://ci.openframeworks.cc/libs/openFrameworksLibs_master_linux64gcc6.tar.bz2 -> ${P}-${ARCH}-libs.tar.bz2 )"
 
-LICENSE=""
+LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
@@ -64,4 +64,3 @@ src_compile() {
 	#export LIBSPATH=linux64
 	#emake Debug
 }
-

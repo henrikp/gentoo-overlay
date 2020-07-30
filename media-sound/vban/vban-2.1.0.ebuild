@@ -33,7 +33,7 @@ src_configure() {
 }
 
 pkg_postinst() {
-	einfo "This project is composed only of command line tools."
-	einfo "If you are looking for a GUI, you can take a look at:"
-	einfo "media-sound/vban-manager"
+	einfo "This project contains only command line tools."
+	#einfo "If you are looking for a GUI, you can take a look at:"
+	#einfo "media-sound/vban-manager"
 }
