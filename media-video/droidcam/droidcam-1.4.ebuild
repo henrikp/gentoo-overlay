@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit readme.gentoo-r1 desktop linux-mod xdg-utils
+inherit readme.gentoo-r1 desktop linux-mod xdg
 
 DESCRIPTION="Turn your mobile device into a webcam"
 HOMEPAGE="https://www.dev47apps.com/"
@@ -12,20 +12,22 @@ SRC_URI="https://github.com/aramg/droidcam/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="gtk"
-RESTRICT="bindist mirror"
+IUSE="audio gtk usb"
 
-DEPEND="gtk? (
-				dev-cpp/gtkmm:3.0
-				media-video/ffmpeg
-			)
-		!gtk? ( media-video/ffmpeg[-X] )
-		=app-pda/libusbmuxd-1*
-		media-libs/alsa-lib"
-RDEPEND="${DEPEND} dev-util/android-tools"
-BDEPEND="=media-libs/libjpeg-turbo-2*
+DEPEND="=app-pda/libusbmuxd-1*
+		dev-libs/glib
+		gtk? ( dev-cpp/gtkmm:3.0 )
+		media-libs/alsa-lib
+		=media-libs/libjpeg-turbo-2*
 		>=media-libs/speex-1.2.0-r1
-		virtual/pkgconfig"
+		media-video/ffmpeg
+		usb? ( dev-util/android-tools )
+		x11-libs/gdk-pixbuf
+		x11-libs/gtk+:3
+		x11-libs/libX11
+		x11-libs/pango"
+RDEPEND="${DEPEND}"
+BDEPEND="virtual/pkgconfig"
 
 S="${WORKDIR}/${P}/linux"
 DOCS=( README.md README-DKMS.md )
@@ -40,21 +42,30 @@ DOC_CONTENTS="
 
 BUILD_TARGETS="all"
 MODULE_NAMES="v4l2loopback-dc(video:${S}/v4l2loopback:${S}/v4l2loopback)"
-CONFIG_CHECK="~SND_ALOOP MEDIA_SUPPORT MEDIA_CAMERA_SUPPORT"
-ERROR_SND_ALOOP="CONFIG_SND_ALOOP: missing, required for audio support"
+CONFIG_CHECK="MEDIA_SUPPORT MEDIA_CAMERA_SUPPORT"
 
 PATCHES=(
 		"${FILESDIR}"/${P}-Makefile-fixes.patch
 )
 
 src_configure() {
+	if use audio ; then
+		if linux_config_exists ; then
+			if linux_chkconfig_builtin SND_ALOOP ; then
+				die "CONFIG_SND_ALOOP should be built as a module."
+			elif ! linux_chkconfig_present SND_ALOOP ; then
+				die "Audio requested but CONFIG_SND_ALOOP not found in kernel!"
+			fi
+		fi
+	fi
 	true
 }
 
 src_prepare() {
-	default
 	if ! use gtk ; then
 		sed -i -e '/cflags gtk+/d' Makefile
+	else
+		xdg_src_prepare
 	fi
 	linux-mod_pkg_setup
 }
@@ -64,20 +75,24 @@ src_compile() {
 		emake droidcam
 	fi
 	emake droidcam-cli
-	linux-mod_src_compile
+	KERNELRELEASE="${KV_FULL}" linux-mod_src_compile
+}
+
+pkg_preinst() {
+	xdg_pkg_preinst
 }
 
 src_install() {
 	if use gtk ; then
 		dobin droidcam
 		newicon -s 32 icon.png droidcam.png
-		newicon -s 48 icon2.png droidcam.png
 		make_desktop_entry "${PN}" "DroidCam Client" "${PN}" AudioVideo
 	fi
 	dobin droidcam-cli
 	readme.gentoo_create_doc
 	insinto /etc/modules-load.d
-	newins "${FILESDIR}"/${PN}-modulesloadd.conf ${PN}.conf
+	doins "${FILESDIR}"/${PN}-video.conf
+	use audio && doins "${FILESDIR}"/${PN}-audio.conf
 	newdoc "${FILESDIR}"/${PN}-modprobe.conf ${PN}.conf.default
 	einstalldocs
 	linux-mod_src_install
@@ -85,22 +100,22 @@ src_install() {
 
 pkg_postinst() {
 	if use gtk ; then
-		xdg_icon_cache_update
+		xdg_pkg_postinst
 	else
 		elog
 		elog "Only droidcam-cli has been installed since no 'gtk' flag was present"
 		elog "in the USE list."
 		elog
 	fi
-	readme.gentoo_print_elog
 	linux-mod_pkg_postinst
+	readme.gentoo_print_elog
+	elog "Links to the Android/iPhone/iPad apps can be reached at"
+	elog "https://www.dev47apps.com/"
 }
 
 pkg_postrm() {
 	if use gtk ; then
-		xdg_desktop_database_update
-		xdg_mimeinfo_database_update
-		xdg_icon_cache_update
+		xdg_pkg_postrm
 	fi
 	linux-mod_pkg_postrm
 }
