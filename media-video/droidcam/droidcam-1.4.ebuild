@@ -51,10 +51,8 @@ PATCHES=(
 src_configure() {
 	if use audio ; then
 		if linux_config_exists ; then
-			if linux_chkconfig_builtin SND_ALOOP ; then
-				die "CONFIG_SND_ALOOP should be built as a module."
-			elif ! linux_chkconfig_present SND_ALOOP ; then
-				die "Audio requested but CONFIG_SND_ALOOP not found in kernel!"
+			if ! linux_chkconfig_present SND_ALOOP ; then
+				die "Audio requested but CONFIG_SND_ALOOP not selected in config!"
 			fi
 		fi
 	fi
@@ -92,7 +90,9 @@ src_install() {
 	readme.gentoo_create_doc
 	insinto /etc/modules-load.d
 	doins "${FILESDIR}"/${PN}-video.conf
-	use audio && doins "${FILESDIR}"/${PN}-audio.conf
+	if use audio && linux_chkconfig_module SND_ALOOP ; then
+		doins "${FILESDIR}"/${PN}-audio.conf
+	fi
 	newdoc "${FILESDIR}"/${PN}-modprobe.conf ${PN}.conf.default
 	einstalldocs
 	linux-mod_src_install
