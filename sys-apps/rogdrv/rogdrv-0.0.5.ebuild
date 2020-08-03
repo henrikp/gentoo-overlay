@@ -3,15 +3,16 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6,7,8,9} )
+PYTHON_COMPAT=( python3_{7,8,9} )
 DISTUTILS_USE_SETUPTOOLS=rdepend
 
-inherit distutils-r1 linux-info git-r3 udev
+inherit distutils-r1 linux-info udev
 
+COMMIT="4bdb41403d2000ae8941bc987f5a2dbafedbc544"
 DESCRIPTION="ASUS ROG userspace mouse driver for Linux."
 HOMEPAGE="https://github.com/kyokenn/rogdrv"
-EGIT_REPO_URI="https://github.com/kyokenn/rogdrv.git"
-EGIT_COMMIT="4bdb41403d2000ae8941bc987f5a2dbafedbc544"
+S="${WORKDIR}/${PN}-${COMMIT}"
+SRC_URI="https://github.com/kyokenn/${PN}/archive/${COMMIT}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
