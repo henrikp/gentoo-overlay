@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<maintainer type="person">
-<email>ahvenas@gmail.com</email>
-</maintainer>
+	<upstream>
+		<remote-id type="github">quiniouben/vban</remote-id>
+	</upstream>
+	<maintainer type="person">
+		<email>ahvenas@gmail.com</email>
+		<name>Henrik Pihl</name>
+	</maintainer>
+	<longdescription>
+	VBAN project is an open-source implementation of the VBAN protocol. 
+	VBAN is a simple audio over UDP protocol proposed by VB-Audio. It is 
+	composed of several command-line tools allowing to stream audio coming 
+	from audio backend interfaces to VBAN stream (vban_emitter) or decode 
+	incoming VBAN streams to audio backend interfaces (vban_receptor), 
+	or send text over the vban protocol (vban_sendtext). 
+	Currently ALSA, PulseAudio and JACK audio backends are supported plus 
+	a simple FIFO pipe output for raw PCM data. 
+	</longdescription>
 </pkgmetadata>
