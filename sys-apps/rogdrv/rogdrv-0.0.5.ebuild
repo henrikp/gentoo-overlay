@@ -19,10 +19,12 @@ SLOT="0"
 KEYWORDS="~amd64"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-DEPEND="dev-libs/libappindicator[${PYTHON_USEDEP}]
+DEPEND="$(python_gen_cond_dep '
 		dev-python/python-evdev[${PYTHON_USEDEP}]
 		dev-python/cffi[${PYTHON_USEDEP}]
 		dev-python/hidapi[${PYTHON_USEDEP}]
+		' python3_{7,8} )
+		dev-libs/libappindicator
 		virtual/udev
 		${PYTHON_DEPS}"
 RDEPEND="${DEPEND}"
