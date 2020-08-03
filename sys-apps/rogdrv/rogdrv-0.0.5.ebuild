@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{7,8,9} )
+PYTHON_COMPAT=( python3_{7,8} )
 DISTUTILS_USE_SETUPTOOLS=rdepend
 
 inherit distutils-r1 linux-info udev
@@ -17,15 +17,15 @@ SRC_URI="https://github.com/kyokenn/${PN}/archive/${COMMIT}.tar.gz -> ${P}.tar.g
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-DEPEND="dev-libs/libappindicator
-		dev-python/python-evdev
-		dev-python/cffi
-		dev-python/cython-hidapi
-		virtual/udev"
+DEPEND="dev-libs/libappindicator[${PYTHON_USEDEP}]
+		dev-python/python-evdev[${PYTHON_USEDEP}]
+		dev-python/cffi[${PYTHON_USEDEP}]
+		dev-python/hidapi[${PYTHON_USEDEP}]
+		virtual/udev
+		${PYTHON_DEPS}"
 RDEPEND="${DEPEND}"
-BDEPEND=""
 CONFIG_CHECK="~INPUT_UINPUT"
 
 python_prepare_all() {
