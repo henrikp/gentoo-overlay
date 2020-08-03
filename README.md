@@ -14,7 +14,7 @@ Legend | Description
 Currently in this overlay
 -------------------------
 
-Package | Name | GURU? | Description
+Package | Name | [GURU?](https://wiki.gentoo.org/wiki/Project:GURU) | Description
 ------- | ---- | ----- | -----------
 [:mailbox_with_mail:]app-editors/kitscenarist | KIT Scenarist | * | new, https://kitscenarist.ru/en/ 
 [:pencil2:]dev-cpp/openframeworks | openFrameworks || new, https://openframeworks.cc/ 
