@@ -25,8 +25,8 @@ Package | Name | [GURU?](https://wiki.gentoo.org/wiki/Project:GURU) | Descriptio
 [:pencil2:]media-sound/vban-manager | VBAN web interface || new, https://github.com/VBAN-manager/VBAN-manager 
 [:mailbox_with_mail:]media-video/droidcam | DroidCam || new, https://www.dev47apps.com/
 [:green_book:]media-video/shotcut | Shotcut || 20.07.11 version bump
-[:green_book:]sys-apps/rogdrv | ASUS ROG mouse utility || new, https://github.com/kyokenn/rogdrv
-[:green_book:]sys-apps/qjournalctl | Journalctl log Qt viewer | * | new, https://github.com/pentix/qjournalctl
+[:green_book:]sys-apps/rogdrv | ASUS ROG mouse utility |*| new, https://github.com/kyokenn/rogdrv
+[:green_book:]sys-apps/qjournalctl | Journalctl log Qt viewer |*| new, https://github.com/pentix/qjournalctl
 [:mailbox_with_mail:]sci-mathematics/wxmaxima | wxMaxima || 20.07.0 version bump, move to 3.0-gtk3
 
 Adding this overlay:
