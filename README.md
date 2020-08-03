@@ -21,7 +21,6 @@ Package | Name | [GURU?](https://wiki.gentoo.org/wiki/Project:GURU) | Descriptio
 [:green_book:]dev-libs/libtess2 | Libtess2 || new, https://github.com/memononen/libtess2 
 [:green_book:]games-util/evtest-qt | QT GUI + evtest || new, https://github.com/Grumbel/evtest-qt
 [:green_book:]games-utils/sdl-jstest | SDL 1 & 2 joystick testing || new, https://gitlab.com/sdl-jstest/sdl-jstest
-[:pencil2:]media-sound/audacity | Audacity || 2.4.2 version bump
 [:green_book:]media-sound/vban | VBAN linux tools || new, https://github.com/quiniouben/vban
 [:pencil2:]media-sound/vban-manager | VBAN web interface || new, https://github.com/VBAN-manager/VBAN-manager 
 [:mailbox_with_mail:]media-video/droidcam | DroidCam || new, https://www.dev47apps.com/
