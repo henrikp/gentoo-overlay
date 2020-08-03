@@ -69,7 +69,7 @@ src_prepare() {
 src_configure() {
 	setup-wxwidgets
 	append-cxxflags -std=gnu++14
-        local mycmakeargs=(
+		local mycmakeargs=(
 #		$(cmake-utils_use cpu_flags_x86_sse sse)
 #		$(cmake-utils_use ladspa)
 #		$(cmake-utils_use nls)
@@ -88,9 +88,9 @@ src_configure() {
 #		$(cmake-utils_use twolame libtwolame)
 #		$(cmake-utils_use vamp libvamp)
 #		$(cmake-utils_use vorbis libvorbis)
-        )
+		)
 
-        cmake_src_configure
+		cmake_src_configure
 
 	# * always use system libraries if possible
 	# * options listed in the order that configure --help lists them
