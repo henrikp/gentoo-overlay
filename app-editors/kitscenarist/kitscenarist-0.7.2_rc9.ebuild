@@ -16,7 +16,6 @@ DOC_CONTENTS="Quick startup hints at https://kitscenarist.ru/en/help/first_glanc
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 FONT_SUFFIX="ttf"
 FONT_S="${S}/bin/scenarist-core/Resources/Fonts"
@@ -35,19 +34,10 @@ DEPEND="dev-qt/qtcore:5
 		dev-qt/qtxml:5
 		sys-libs/zlib[minizip]"
 RDEPEND="${DEPEND}"
-BDEPEND=""
-
-src_prepare() {
-	xdg_src_prepare
-}
 
 src_configure() {
 	eqmake5 Scenarist.pro
 	emake qmake_all
-}
-
-src_preinst() {
-	xdg_src_prepare
 }
 
 src_install() {
@@ -56,15 +46,4 @@ src_install() {
 	newbin "${WORKDIR}"/build/Release/bin/scenarist-desktop/Scenarist "${PN}"
 	readme.gentoo_create_doc
 	font_src_install
-}
-
-pkg_postinst() {
-	xdg_pkg_postinst
-	font_pkg_postinst
-	readme.gentoo_print_elog
-}
-
-pkg_postrm() {
-	xdg_pkg_postrm
-	font_pkg_postrm
 }
