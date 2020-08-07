@@ -13,30 +13,18 @@ EGIT_COMMIT="fc52516467dfa124bdd967c15c7cf9faf02a34ca"
 LICENSE="SGI-B-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
+IUSE="static-libs"
 DOCS=( README.md )
 
 DEPEND="media-libs/glew:0"
 RDEPEND="${DEPEND}"
 BDEPEND="dev-util/premake:4"
 
+PATCHES=( "${FILESDIR}"/libtess2-1.0.2_p1-premake-edit.patch )
+
 src_prepare() {
-	sed -i \
-		-e "s/StaticLib/SharedLib/" \
-		-e "s/Symbols\",/Symbols\", \"Optimize\", /" \
-		"${S}"/premake4.lua || die "Unable to patch premake4.lua !"
-	sed -i \
-		-e "s/\"nanosvg.h\"/<nanosvg.h>/" \
-		-e "s/\"tesselator.h\"/<tesselator.h>/" \
-		"${S}"/Example/example.c || die "Unable to patch example.c !"
-	sed -i \
-		-e "s/\"nanosvg.h\"/<nanosvg.h>/" \
-		"${S}"/Contrib/nanosvg.c || die "Unable to patch nanosvg.c !"
-	premake4 gmake
-	sed -i \
-		-e "s/+= \$(LDDEPS)/+= \$(LDDEPS) -Wl,-soname,libtess2.so/" \
-		"${S}"/Build/tess2.make || die "Unable to patch tess2.make !"
 	default
+	premake4 gmake
 }
 
 src_compile() {
@@ -50,14 +38,17 @@ src_compile() {
 	emake verbose=1 -C Build \
 		"${MAKEARGS[@]}" \
 		config="debug" \
-		tess2
+		tess2 tess2shared
 }
 
 src_install() {
 	doheader Include/tesselator.h
 	doheader Contrib/nanosvg.h
 	dolib.so Build/libtess2.so
+	use static-libs && dolib.a Build/libtess2.a
+	insinto /usr/$(get_libdir)/pkgconfig
+	doins "${FILESDIR}"/libtess2.pc
 	dodoc Example/example.c
 	dodoc Contrib/nanosvg.c
-	einstalldocs
+	docompress -x /usr/share/doc/${P}
 }

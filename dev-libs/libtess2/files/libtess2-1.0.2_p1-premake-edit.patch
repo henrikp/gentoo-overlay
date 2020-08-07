@@ -1,0 +1,20 @@
+diff --git a/premake4.lua b/premake4.lua
+index 69533c9..b338f29 100644
+--- a/premake4.lua
++++ b/premake4.lua
+@@ -22,6 +22,15 @@ solution "libtess2"
+ 		files { "Source/*.c" }
+ 		targetdir("Build")
+ 
++	project "tess2shared"
++		targetname ("tess2")
++		language "C"
++		kind "SharedLib"
++		includedirs { "Include", "Source" }
++		files { "Source/*.c" }
++		targetdir("Build")
++		linkoptions { "-Wl,-soname,libtess2.so" }
++
+ 	-- more dynamic example
+ 	project "example"
+ 		kind "ConsoleApp"

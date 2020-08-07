@@ -1,0 +1,10 @@
+prefix=/usr/
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib64
+
+Name: tess2
+Description: Polygon tesselator and triangulator
+Version: 1.0.2 
+Cflags: -I${includedir}
+Libs: -L${libdir} -ltess2
