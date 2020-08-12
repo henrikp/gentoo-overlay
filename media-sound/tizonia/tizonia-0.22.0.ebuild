@@ -236,46 +236,12 @@ src_install() {
 	cd "${BUILD_DIR}"
 	DESTDIR=${D} eninja install
 	python_optimize
-	if use openrc ; then
-		dodir /etc/init.d
-		exeinto /etc/init.d
-		doexe "${FILESDIR}/tizrmd"
-	fi
-	#if use systemd ; then
-	#mv "${D}"/usr/share/dbus-1/services/com.aratelia.tiz.rm.service \
-	#		"${D}"/usr/lib/systemd/system/ || die
-	#else
-	#	rm -rf "${D}"/usr/share/dbus-1/services/com.aratelia.tiz.rm.service \
-	#		|| die
-	#fi
-	docompress -x /usr/share/doc/${P}
-	#einstalldocs
 }
 
 pkg_postinst() {
 	xdg_icon_cache_update
-	if use openrc ; then
-		rc-update add tizrmd
-		/etc/init.d/tizrmd start
-	fi
-	#if use systemd ; then
-	#	systemctl daemon-reload
-	#	systemctl enable com.aratelia.tiz.rm.service
-	#	systemctl start com.aratelia.tiz.rm.service
-	#fi
 }
 
 pkg_postrm() {
 	xdg_icon_cache_update
-}
-
-pkg_prerm() {
-	if use openrc ; then
-		/etc/init.d/tizrmd stop
-		rc-update delete tizrmd
-	fi
-	#if use systemd ; then
-	#	systemctl disable com.aratelia.tiz.rm.service
-	#	systemctl stop com.aratelia.tiz.rm.service
-	#fi
 }
